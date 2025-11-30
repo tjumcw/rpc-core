@@ -16,7 +16,6 @@ public class RegistryServer {
 
     private static final Logger logger = LoggerFactory.getLogger(RegistryServer.class);
 
-    // 注册表：serviceKey -> List<ServiceInfo>
     private static final Map<String, ServiceInfo> registry = new ConcurrentHashMap<>();
 
     public static void main(String[] args) throws IOException {

@@ -1,4 +1,4 @@
-package com.mcw.distributed.request;
+package com.mcw.distributed.config;
 
 import java.util.ArrayList;
 import java.util.List;

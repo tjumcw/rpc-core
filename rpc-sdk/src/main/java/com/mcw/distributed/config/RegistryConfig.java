@@ -1,5 +1,6 @@
-package com.mcw.distributed.request;
+package com.mcw.distributed.config;
 
+// 暂时没用，只有一个注册中心，写了xml也不会读取对应的配置
 public class RegistryConfig {
 
     private String address;

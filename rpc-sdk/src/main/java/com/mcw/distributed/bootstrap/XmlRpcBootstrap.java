@@ -1,7 +1,10 @@
 package com.mcw.distributed.bootstrap;
 
+import com.mcw.distributed.config.ConsumerConfig;
+import com.mcw.distributed.config.ProviderConfig;
+import com.mcw.distributed.config.RpcConfig;
+import com.mcw.distributed.config.ScanConfig;
 import com.mcw.distributed.consumer.ConsumerRefMapping;
-import com.mcw.distributed.consumer.RpcProxy;
 import com.mcw.distributed.provider.ProviderImplFactory;
 import com.mcw.distributed.provider.RpcServer;
 import com.mcw.distributed.registry.RegistryClient;

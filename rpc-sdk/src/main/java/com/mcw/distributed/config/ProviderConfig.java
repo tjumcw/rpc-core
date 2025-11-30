@@ -1,4 +1,4 @@
-package com.mcw.distributed.request;
+package com.mcw.distributed.config;
 
 /**
  * 服务提供者配置
