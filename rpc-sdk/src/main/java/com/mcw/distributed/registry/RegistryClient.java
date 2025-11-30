@@ -48,7 +48,7 @@ public class RegistryClient {
             @SuppressWarnings("unchecked")
             ServiceInfo service = (ServiceInfo) ois.readObject();
 
-            logger.debug("发现服务成功: {}:{}", serviceName, version);
+            logger.info("发现服务成功: {}:{}", serviceName, version);
             return service;
         } catch (Exception e) {
             logger.error("发现服务失败", e);

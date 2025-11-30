@@ -13,7 +13,7 @@ public class ProviderImplFactory {
         PROVIDER_IMPL_MAP.put(interfaceClass, instance);
     }
 
-    public Object getServiceInstance(Class<?> clazz) {
+    public static Object getServiceInstance(Class<?> clazz) {
         return PROVIDER_IMPL_MAP.get(clazz);
     }
 }
