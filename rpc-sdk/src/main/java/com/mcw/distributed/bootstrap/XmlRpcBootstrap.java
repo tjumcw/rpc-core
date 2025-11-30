@@ -12,41 +12,19 @@ import com.mcw.distributed.request.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class XmlRpcBootstrap {
+public class XmlRpcBootstrap extends AbstractRpcBootstrap {
 
     private static final Logger logger = LoggerFactory.getLogger(XmlRpcBootstrap.class);
 
     private final RpcConfig config;
-    private final RpcServer rpcServer;
 
     public XmlRpcBootstrap(String configFile) {
+        super();
         this.config = XmlConfigParser.parse(configFile);
-        this.rpcServer = new RpcServer();
-        this.start();
     }
 
-    public void start() {
-        try {
-            logger.info("开始启动 RPC 服务 (XML配置模式)...");
-
-            // 2. 注册服务提供者
-            registerServices();
-
-            // 3. 扫描注解方式的服务（如果配置了包扫描）
-            scanAnnotationServices();
-
-            // 4. 注入服务消费者
-            mappingConsumerReferences();
-
-            logger.info("RPC 服务启动完成");
-
-        } catch (Exception e) {
-            logger.error("RPC 服务启动失败", e);
-            throw new RuntimeException("RPC服务启动失败", e);
-        }
-    }
-
-    private void registerServices() {
+    @Override
+    protected void registerProviderServices() {
         logger.info("注册XML配置的服务...");
 
         for (ProviderConfig providerConfig : config.getProviderConfigs()) {
@@ -54,12 +32,7 @@ public class XmlRpcBootstrap {
                 Class<?> implClass = Class.forName(providerConfig.getRef());
                 Object instance = implClass.getDeclaredConstructor().newInstance();
 
-                ServiceInfo serviceInfo = new ServiceInfo();
-                serviceInfo.setInterfaceName(providerConfig.getInterfaceName());
-                serviceInfo.setVersion(providerConfig.getVersion());
-                serviceInfo.setHost(rpcServer.getHost());
-                serviceInfo.setPort(rpcServer.getPort());
-
+                ServiceInfo serviceInfo = super.createServiceInfo(providerConfig.getInterfaceName(), providerConfig.getVersion());
                 RegistryClient.register(serviceInfo);
                 ProviderImplFactory.registerService(Class.forName(providerConfig.getInterfaceName()), instance);
 
@@ -71,20 +44,9 @@ public class XmlRpcBootstrap {
         }
     }
 
-    private void scanAnnotationServices() {
-        ScanConfig scanConfig = config.getScanConfig();
-        if (scanConfig == null || scanConfig.getBasePackage() == null) {
-            return;
-        }
-
-        logger.info("扫描注解服务: {}", scanConfig.getBasePackage());
-
-        // 复用之前的扫描逻辑
-        // 这里可以调用之前 RpcBootstrap 中的扫描方法
-    }
-
-    private void mappingConsumerReferences() {
-        logger.info("映射XML配置的服务引用...");
+    @Override
+    protected void discoverConsumerServices() {
+        logger.info("发现XML配置的消费者服务引用...");
 
         for (ConsumerConfig refConfig : config.getConsumerConfigs()) {
             try {

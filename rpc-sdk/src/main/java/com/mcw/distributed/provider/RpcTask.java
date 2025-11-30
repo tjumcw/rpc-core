@@ -28,7 +28,7 @@ public class RpcTask implements Runnable {
             logger.info("RpcTask -> requestInfo: {}", requestInfo);
 
             Class<?> clazz = Class.forName(requestInfo.getClassName());
-            Object service = RpcServer.LOCAL_SERVICE_FACTORY.getServiceInstance(clazz);
+            Object service = ProviderImplFactory.getServiceInstance(clazz);
 
             Object result = MethodHandlerInvoker.invoke(
                     service,
