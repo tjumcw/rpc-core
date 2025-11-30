@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rpc-config xmlns="http://mcw.com/schema/rpc"
+            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            xsi:schemaLocation="http://mcw.com/schema/rpc rpc.xsd">
+
+    <!-- 注册中心配置 -->
+    <registry address="localhost" port="9090" protocol="socket"/>
+
+    <!-- 服务器配置 -->
+
+    <!-- 服务提供配置 -->
+    <providers>
+        <provider interface="com.example.api.UserService"
+                 ref="userServiceImpl"
+                 version="1.0.0"/>
+
+        <provider interface="com.example.api.AuthService"
+                 ref="authServiceImpl"
+                 version="1.0.0"/>
+    </providers>
+
+    <!-- 包扫描（可选，用于扫描 @RpcService 注解） -->
+    <scan base-package="com.example.provider"/>
+
+</rpc-config>

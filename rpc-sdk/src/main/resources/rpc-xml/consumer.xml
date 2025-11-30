@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rpc-config xmlns="http://mcw.com/schema/rpc"
+            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            xsi:schemaLocation="http://mcw.com/schema/rpc rpc.xsd">
+
+    <!-- 注册中心配置 -->
+    <registry address="localhost" port="9090" protocol="socket"/>
+
+    <!-- 服务引用配置 -->
+    <consumers>
+        <consumer id="userService"
+                   interface="com.example.api.UserService"
+                   version="1.0.0"
+                   timeout="3000"
+                   retries="2"/>
+
+        <consumer id="orderService"
+                   interface="com.example.api.OrderService"
+                   version="1.0.0"
+                   timeout="5000"
+                   retries="3"/>
+
+        <consumer id="paymentService"
+                   interface="com.example.api.PaymentService"
+                   version="2.0.0"
+                   timeout="10000"/>
+    </consumers>
+
+    <!-- 包扫描（可选，用于扫描 @RpcConsumer 注解） -->
+    <scan base-package="com.example.consumer"/>
+
+</rpc-config>

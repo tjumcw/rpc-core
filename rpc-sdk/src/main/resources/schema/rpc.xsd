@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           targetNamespace="http://mcw.com/schema/rpc"
+           xmlns:rpc="http://mcw.com/schema/rpc"
+           elementFormDefault="qualified">
+
+    <!-- 根元素 -->
+    <xs:element name="rpc-config">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="registry" type="rpc:registryType" minOccurs="1" maxOccurs="1"/>
+                <xs:element name="providers" type="rpc:providersType" minOccurs="0" maxOccurs="1"/>
+                <xs:element name="consumers" type="rpc:consumersType" minOccurs="0" maxOccurs="1"/>
+                <xs:element name="scan" type="rpc:scanType" minOccurs="0" maxOccurs="1"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <!-- 注册中心配置 -->
+    <xs:complexType name="registryType">
+        <xs:attribute name="address" type="xs:string" use="required"/>
+        <xs:attribute name="port" type="xs:integer" use="required"/>
+        <xs:attribute name="protocol" type="xs:string" default="socket"/>
+    </xs:complexType>
+
+    <!-- 服务提供者配置 -->
+    <xs:complexType name="providersType">
+        <xs:sequence>
+            <xs:element name="provider" type="rpc:providerType" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="providerType">
+        <xs:attribute name="interface" type="xs:string" use="required"/>
+        <xs:attribute name="ref" type="xs:string" use="required"/>
+        <xs:attribute name="version" type="xs:string" default="1.0.0"/>
+    </xs:complexType>
+
+    <!-- 服务消费者配置 -->
+    <xs:complexType name="consumersType">
+        <xs:sequence>
+            <xs:element name="consumer" type="rpc:consumerType" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="consumerType">
+        <xs:attribute name="id" type="xs:string" use="required"/>
+        <xs:attribute name="interface" type="xs:string" use="required"/>
+        <xs:attribute name="version" type="xs:string" default="1.0.0"/>
+        <xs:attribute name="timeout" type="xs:integer" default="3000"/>
+        <xs:attribute name="retries" type="xs:integer" default="2"/>
+    </xs:complexType>
+
+    <!-- 包扫描配置 -->
+    <xs:complexType name="scanType">
+        <xs:attribute name="base-package" type="xs:string" use="required"/>
+    </xs:complexType>
+
+</xs:schema>
